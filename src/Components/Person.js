@@ -1,9 +1,11 @@
 import React, {Component} from "react";
-import  CrudDemo, {Read}  from "../CrudDemo";
+import  CrudDemo  from "../CrudDemo";
+
 export default function Person () {
     
    return (
-    <div>
+    <div> 
+         
         <CrudDemo /></div> 
    )
 }

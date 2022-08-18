@@ -5,6 +5,7 @@ import axios from 'axios';
 import { getDefaultNormalizer } from "@testing-library/react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 export default function CrudDemo  ()
 {
 
@@ -17,11 +18,12 @@ export default function CrudDemo  ()
     }
     
     const [persons, setPersons] = useState([]);
-    
+    const [reload, setReload] = useState([]);
     const [person, setPerson] = useState(dataPerson);
     const webDBAdress='https://localhost:44342/People';
     const [showDetails, setShowDetails] = useState(false);
     
+
     const FindById = (id) => 
     {
          axios.get('webDBAdress${id}').then((response) =>
@@ -31,18 +33,22 @@ export default function CrudDemo  ()
     }
 
     
-
-    const Read = () =>{
-        console.log("Hej 6")
-        return (
+    
+    
+       
         useEffect(() => {
-            axios.get(webDBAdress).then((response) => 
-            {
-                console.log(response.data + "Hej 8");
-                setPersons(response.data);
-            }
-            )
-        }, []))
+            console.log(+ "Hej 8");
+            getRead();
+            
+            
+        },[null]);
+        
+   
+
+    async function getRead() { 
+        const response = await axios.get(webDBAdress);
+        setPersons(response.data);
+
     }
         
     
@@ -52,7 +58,7 @@ export default function CrudDemo  ()
             person
         }
         ).then(() => {
-            Read();
+            getRead();
         })
     }
 
@@ -66,7 +72,7 @@ export default function CrudDemo  ()
     const Delete = (id) =>{
         axios.delete(webDBAdress+'${id}')
         .then(() => {
-            Read();
+            getRead();
         })
     }
 
@@ -159,9 +165,11 @@ export default function CrudDemo  ()
     //const PersonsList = () => {
         
         return (
+            
             <div className="container">
                 <h3>Persons</h3>
                 
+                <getRead />
                 <Table>
                     <TableHeader />
                     
