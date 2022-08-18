@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Person from './Components/Person';
 import axios from 'axios';
 import { getDefaultNormalizer } from "@testing-library/react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function CrudDemo  ()
 {
@@ -14,7 +15,7 @@ export default function CrudDemo  ()
         email:'',
         title:''
     }
-
+    
     const [persons, setPersons] = useState([]);
     
     const [person, setPerson] = useState(dataPerson);
@@ -23,7 +24,7 @@ export default function CrudDemo  ()
     
     const FindById = (id) => 
     {
-        axios.get('webDBAdress${id}').then((response) =>
+         axios.get('webDBAdress${id}').then((response) =>
         {
             setPerson(response.data);
         })
@@ -33,14 +34,15 @@ export default function CrudDemo  ()
 
     const Read = () =>{
         console.log("Hej 6")
+        return (
         useEffect(() => {
-            axios.get(webDBAdress).then((response) =>
+            axios.get(webDBAdress).then((response) => 
             {
-                console.log(response.data);
+                console.log(response.data + "Hej 8");
                 setPersons(response.data);
             }
             )
-        }, [])
+        }, []))
     }
         
     
@@ -72,14 +74,14 @@ export default function CrudDemo  ()
         
         return (
             
-                
+              
         <thead>
           <tr>
             <th>Id</th>
-            <th>Firstname</th>
+            <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>Title</th>
+            
             <th>Action</th>
           </tr>
 
@@ -89,12 +91,14 @@ export default function CrudDemo  ()
         );
     };
 
+
     const TableRow = () => {
+        
         return (
             <tbody>
                 {
                     persons.map((person, index) => {
-                        const {id, firstName, lastName, email, titel} = person
+                        const {id, firstName, lastName, email} = person
                         console.log(index+ " Hej 7" + " " + person.firstName)
                         
                             return (
@@ -126,7 +130,7 @@ export default function CrudDemo  ()
 
     // functionconponent 
     const ShowStudentDetails = () => {
-       
+        const {id, firstName, lastName, email, title} = person
         return (
             <>
                 {showDetails &&
@@ -134,12 +138,12 @@ export default function CrudDemo  ()
                         <div className="card-header bg-info text-white">
                             Person information
                         </div>
-                        <div className="card-body" class="row">
+                        <div className="card-body row">
                             
-                            <p className="card-text">ID: {person.id}</p>
-                            <p className="card-text">Name: {person.firstName} {dataPerson.lastName}</p>
-                            <p className="card-text">Email: {person.email}</p>
-                            <p className="card-text">Email: {person.title}</p>
+                            <p className="card-text">ID: {id}</p>
+                            <p className="card-text">Name: {firstName} {lastName}</p>
+                            <p className="card-text">Email: {email}</p>
+                            <p className="card-text">Email: {title}</p>
                         </div>
                         <div className="card-footer">
                             <button type="button" className="btn btn-info" onClick={() => { setShowDetails(false); setPerson(dataPerson); }}>Hide info</button>
@@ -157,7 +161,7 @@ export default function CrudDemo  ()
         return (
             <div className="container">
                 <h3>Persons</h3>
-                <Read />
+                
                 <Table>
                     <TableHeader />
                     
@@ -167,6 +171,7 @@ export default function CrudDemo  ()
                 <br />
                 
             <ShowStudentDetails/>
+            
             </div>
         )
     //}
