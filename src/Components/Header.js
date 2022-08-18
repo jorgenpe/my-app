@@ -8,7 +8,7 @@ export default function Header  ()  {
             <Link to="/home">Home</Link>
             <Link to="/person">Person</Link>
             <Link to="/about">About Us</Link>
-            <Link to="/crud">CRUD</Link>*/
+            <Link to="/crud">CRUD</Link>
 
         </nav>
     );

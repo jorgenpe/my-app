@@ -9,7 +9,7 @@ import Header from './Components/Header';
 import Welcome from './Components/Welcome';
 import './App.css'
 
-export default function DemoRouter() {
+export default function DemoRouter (){
 console.log("hej 2")
 return (
     
@@ -18,14 +18,15 @@ return (
         
            <Header /> 
            <Routes>
-           <Route extract path="/" element= {<Header />} />
+           <Route extract path="/" element= {<Welcome/>} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/person" element={<Person />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/crud" element={<CrudDemo />} />
                 <Route element={<NotFound />} />
         </Routes>
-    
+   
+
 
         </div>
     </Router>
