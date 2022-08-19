@@ -57,8 +57,13 @@ export default function CrudDemo  ()
     
     
     const Create =() =>{
+        console.log('hej på dig ' + person.firstName + ' ' + person.id);
         axios.post(webDBAdress,{
-            person
+            "id": 0,
+            "firstName": person.firstName, 
+            "lastName": person.lastName,
+            "email": person.email,
+            "title": person.title 
         }
         ).then(() => {
             getRead();
@@ -85,6 +90,7 @@ export default function CrudDemo  ()
             
               
         <thead>
+            <ButtonCreateClicked />
           <tr>
             <th>Id</th>
             <th>First Name</th>
@@ -105,6 +111,8 @@ export default function CrudDemo  ()
         
         return (
             <tbody>
+                
+
                 {showPeopleList &&
                     persons.map((person, index) => {
                         const {id, firstName, lastName, email} = person
@@ -138,6 +146,15 @@ export default function CrudDemo  ()
         return <button type="button" className="btn btn-primary" onClick={display} >Details</button>
     }
 
+    const ButtonCreateClicked = () =>{
+        const display = () =>{
+            setShowPeopleCreate(true);
+            setShowPeopleList(false);
+            
+        };
+        return <button type="button" className="btn btn-primary" onClick={display} >Create Person</button>
+    }
+
     // functionconponent 
     const ShowPeopleDetails = () => {
         const {id, firstName, lastName, email, title} = person
@@ -168,25 +185,26 @@ export default function CrudDemo  ()
         return ( showPeopleCreate &&
             
             <div>
-            <formgroup className="create-form">
-                <form>
-                    <label>First Name</label>
-                    <input placeholder='First Name' onChange={(e) => setPerson.firstName(e.target.value)}/>
-                </form>
-                <form>
-                    <label>Last Name</label>
-                    <input placeholder='Last Name' onChange={(e) => setPerson.lastName(e.target.value)}/>
-                </form>
-                <form>
-                <label>Email</label>
-                    <input placeholder='Last Name' onChange={(e) => setPerson.email(e.target.value)}/>
-                </form>
-                <form>
-                <label>Title</label>
-                    <input placeholder='Last Name' onChange={(e) => setPerson.title(e.target.value)}/>
-                </form>
-                <button onClick={() => {Create(); setShowPeopleCreate(false); }} type='submit'>Submit</button>
-            </formgroup>
+            <form className="create-form">
+                <div>
+                    <label>First Name:</label>
+                    <input placeholder='First Name: ' onChange={(e) => person.firstName = e.target.value}/>
+                </div>
+                <div>
+                    <label>Last Name:</label>
+                    <input placeholder='Last Name: ' onChange={(e) => person.lastName = e.target.value}/>
+                </div>
+                <div>
+                <label>Email:</label>
+                    <input placeholder='Email: ' onChange={(e) => person.email = e.target.value}/>
+                </div>
+                <div>
+                <label>Title:</label>
+                    <input placeholder='Title: ' onChange={(e) => person.title = e.target.value}/>
+                </div>
+
+                <button onClick={() => {Create(); setShowPeopleCreate(false); setShowPeopleList(true) }} type='submit'>Submit</button>
+            </form>
         </div>
         )
     }
@@ -201,6 +219,7 @@ export default function CrudDemo  ()
                 <h3>Persons</h3>
                 
                 <getRead />
+                <CreatePerson />
                 <Table>
                     <TableHeader />
                     
