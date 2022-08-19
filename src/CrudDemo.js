@@ -57,7 +57,7 @@ export default function CrudDemo  ()
     
     
     const Create =() =>{
-        console.log('hej på dig ' + person.firstName + ' ' + person.id);
+        
         axios.post(webDBAdress,{
             "id": 0,
             "firstName": person.firstName, 
@@ -71,14 +71,21 @@ export default function CrudDemo  ()
     }
 
     const Update = (id) =>{
-        axios.put(webDBAdress+'${id}', {
-            person
-            
+        axios.put(webDBAdress+'/${id}', {
+            "id": id,
+            "firstName": person.firstName, 
+            "lastName": person.lastName,
+            "email": person.email,
+            "title": person.title 
         }).then(() => {getRead();})
     }
 
+    
+
     const Delete = (id) =>{
-        axios.delete(webDBAdress+'${id}')
+        console.log(id + 'Hej du gamle man');
+        axios.delete(webDBAdress+'/'+id)
+        
         .then(() => {
             getRead();
         })
@@ -126,7 +133,8 @@ export default function CrudDemo  ()
                                 <td className="table-Light">{email}</td>
                             
                                 <td className="table-Light"><ButtonClicked person={person} /></td>
-                                
+                                <td className="table-Light"><ButtonUpdateClicked person={person} /></td>
+                                <td className="table-Light"><button type="button" className="btn btn-danger" onClick={() => Delete(id)}>Delete</button></td>
                             </tr>
                            
                         )
@@ -154,6 +162,17 @@ export default function CrudDemo  ()
         };
         return <button type="button" className="btn btn-primary" onClick={display} >Create Person</button>
     }
+
+    const ButtonUpdateClicked = ({person}) =>{
+        const display = () =>{
+            setShowPeopleUpdate(true);
+            setShowPeopleList(false);
+            setPerson(person);
+        };
+        return <button type="button" className="btn btn-primary" onClick={display} >Update Person</button>
+    }
+
+    
 
     // functionconponent 
     const ShowPeopleDetails = () => {
@@ -209,6 +228,36 @@ export default function CrudDemo  ()
         )
     }
 
+    const UpdatePerson = () => {
+        console.log('hej på dig ' + person.firstName + ' ' + person.id);
+        return ( showPeopleUpdate &&
+            
+
+            <div>
+            <form className="create-form">
+                <div>
+                    <label>First Name:</label>
+                    <input  defaultValue={person.firstName} onChange={(e) => person.firstName = e.target.value}/>
+                </div>
+                <div>
+                    <label>Last Name:</label>
+                    <input  defaultValue={person.lastName} onChange={(e) => person.lastName = e.target.value}/>
+                </div>
+                <div>
+                <label>Email:</label>
+                    <input defaultValue={person.email} onChange={(e) => person.email = e.target.value}/>
+                </div>
+                <div>
+                <label>Title:</label>
+                    <input defaultValue={person.title} onChange={(e) => person.title = e.target.value}/>
+                </div>
+
+                <button onClick={() => {Update(); setShowPeopleUpdate(false); setShowPeopleList(true) }} type='submit'>Submit</button>
+            </form>
+        </div>
+        )
+    }
+
     const Table = ({ children }) => <table className="table table-striped">{children}</table>
 
     //const PersonsList = () => {
@@ -220,6 +269,7 @@ export default function CrudDemo  ()
                 
                 <getRead />
                 <CreatePerson />
+                <UpdatePerson />
                 <Table>
                     <TableHeader />
                     
