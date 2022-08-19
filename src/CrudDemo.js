@@ -6,6 +6,7 @@ import { getDefaultNormalizer } from "@testing-library/react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
+
 export default function CrudDemo  ()
 {
 
@@ -22,7 +23,9 @@ export default function CrudDemo  ()
     const [person, setPerson] = useState(dataPerson);
     const webDBAdress='https://localhost:44342/People';
     const [showDetails, setShowDetails] = useState(false);
-    
+    const [showPeopleList, setShowPeopleList] = useState(true);
+    const [showPeopleCreate, setShowPeopleCreate] = useState(false);
+    const [showPeopleUpdate, setShowPeopleUpdate] = useState(false);
 
     const FindById = (id) => 
     {
@@ -66,7 +69,7 @@ export default function CrudDemo  ()
         axios.put(webDBAdress+'${id}', {
             person
             
-        }).then(() => {useNavigate.pushState('/read')})
+        }).then(() => {getRead();})
     }
 
     const Delete = (id) =>{
@@ -78,7 +81,7 @@ export default function CrudDemo  ()
 
     const TableHeader = () =>{
         
-        return (
+        return ( showPeopleList &&
             
               
         <thead>
@@ -102,7 +105,7 @@ export default function CrudDemo  ()
         
         return (
             <tbody>
-                {
+                {showPeopleList &&
                     persons.map((person, index) => {
                         const {id, firstName, lastName, email} = person
                         console.log(index+ " Hej 7" + " " + person.firstName)
@@ -129,13 +132,14 @@ export default function CrudDemo  ()
     const ButtonClicked = ({person}) =>{
         const display = () =>{
             setShowDetails(true);
+            setShowPeopleList(false);
             setPerson(person);
         };
         return <button type="button" className="btn btn-primary" onClick={display} >Details</button>
     }
 
     // functionconponent 
-    const ShowStudentDetails = () => {
+    const ShowPeopleDetails = () => {
         const {id, firstName, lastName, email, title} = person
         return (
             <>
@@ -152,11 +156,38 @@ export default function CrudDemo  ()
                             <p className="card-text">Email: {title}</p>
                         </div>
                         <div className="card-footer">
-                            <button type="button" className="btn btn-info" onClick={() => { setShowDetails(false); setPerson(dataPerson); }}>Hide info</button>
+                            <button type="button" className="btn btn-info" onClick={() => { setShowDetails(false); setPerson(dataPerson); setShowPeopleList(true) }}>Hide info</button>
                         </div>
                     </div >
                 }
             </>
+        )
+    }
+
+    const CreatePerson = () => {
+        return ( showPeopleCreate &&
+            
+            <div>
+            <formgroup className="create-form">
+                <form>
+                    <label>First Name</label>
+                    <input placeholder='First Name' onChange={(e) => setPerson.firstName(e.target.value)}/>
+                </form>
+                <form>
+                    <label>Last Name</label>
+                    <input placeholder='Last Name' onChange={(e) => setPerson.lastName(e.target.value)}/>
+                </form>
+                <form>
+                <label>Email</label>
+                    <input placeholder='Last Name' onChange={(e) => setPerson.email(e.target.value)}/>
+                </form>
+                <form>
+                <label>Title</label>
+                    <input placeholder='Last Name' onChange={(e) => setPerson.title(e.target.value)}/>
+                </form>
+                <button onClick={() => {Create(); setShowPeopleCreate(false); }} type='submit'>Submit</button>
+            </formgroup>
+        </div>
         )
     }
 
@@ -178,7 +209,7 @@ export default function CrudDemo  ()
                 </Table>
                 <br />
                 
-            <ShowStudentDetails/>
+            <ShowPeopleDetails/>
             
             </div>
         )
